@@ -89,9 +89,9 @@ function updateStatusBarTextInfo(): void {
 	// If we have statusBarTextInfo & an active editor, then update statusBarTextInfo's values
 	//console.log("------------");
 	if (statusBarTextInfo !== null) {
-		let editor = vscode.window.activeTextEditor; // The current active editor
+		let editor: vscode.TextEditor | undefined = vscode.window.activeTextEditor; // The current active editor
 		if (editor) {
-			let editorDoc = editor.document; // The current open document in the editor
+			let editorDoc: vscode.TextDocument = editor.document; // The current open document in the editor
 			let finalText: string = "Lns: " + editorDoc.lineCount + ", Chs: " + editorDoc.getText().length; // The text that will be set to the status bar
 			if (vscode.workspace.getConfiguration("vscplus").get("statusBar.textInfo.displaySelection") === true) {
 				let selectionLines: number = 0; // Number of lines selected
@@ -117,7 +117,7 @@ function updateStatusBarTextInfo(): void {
 // @param output: If true, it will output extra information
 async function updateStatusBarFileSize(output: boolean = false) {
 	if (statusBarFileSize) {
-		let doc: any = vscode.window.activeTextEditor?.document; // Current active document
+		let doc: vscode.TextDocument | undefined = vscode.window.activeTextEditor?.document; // Current active document
 		if (doc) {
 			let docURI: vscode.Uri = doc.uri; // The universal resource identifier
 			if (docURI.scheme !== "untitled") { // Exclude untitled files
@@ -138,7 +138,7 @@ async function updateStatusBarFileSize(output: boolean = false) {
 				// If we should display the pop up box
 				if (output) {
 					let outputResult: string = doc.fileName + " =      " + byte + " Bytes | " + (byte / 1000).toFixed(2) + " Kilobytes | " + (byte / 1000000).toFixed(2) + " MegaBytes | " + (byte / 1000000000).toFixed(2) + " Gigabytes";
-					let infoMsg = await vscode.window.showInformationMessage(outputResult, "Copy Path");
+					let infoMsg: string | undefined = await vscode.window.showInformationMessage(outputResult, "Copy Path");
 					if (infoMsg === "Copy Path") {
 						vscode.env.clipboard.writeText(docURI.fsPath);
 					}
@@ -161,8 +161,8 @@ async function updateStatusBarFormatting(toggle: boolean = false) {
 			onType: configTriggers.includes("onType")
 		};
 		//console.log("Triggers:", triggers);
-		let configEditor: any = vscode.workspace.getConfiguration("editor"); // Default VSCode formatting options
-		let active: boolean = (triggers.onPaste && configEditor.get("formatOnPaste")) || (triggers.onSave && configEditor.get("formatOnSave")) || (triggers.onType && configEditor.get("formatOnType")); // Are any of the formatting options active?
+		let configEditor: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("editor"); // Default VSCode formatting options
+		let active: boolean | undefined = (triggers.onPaste && configEditor.get("formatOnPaste")) || (triggers.onSave && configEditor.get("formatOnSave")) || (triggers.onType && configEditor.get("formatOnType")); // Are any of the formatting options active?
 		//console.log("Active:", active);
 
 		// If this was a button press...
@@ -191,7 +191,7 @@ async function updateStatusBarFormatting(toggle: boolean = false) {
 
 // The main function
 function activateVSCPlus(context: vscode.ExtensionContext): void {
-	let config = vscode.workspace.getConfiguration("vscplus");
+	let config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("vscplus");
 
 	// Status bar - Reload button
 	if (config.get("statusBar.reloadButton.enabled") === true) {
