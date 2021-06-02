@@ -4,11 +4,19 @@
 	"description": "Additional customizable tools for Visual Studio Code.",
 	"version": "1.0.0",
 	"publisher": "Vrej",
+	"icon": "images/icon.png",
 	"author": {
 		"name": "DrVrej"
 	},
-	"license": "",
-	"icon": "images/icon.png",
+	"license": "MIT",
+	"homepage": "https://github.com/DrVrej/vscplus",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/DrVrej/vscplus"
+	},
+	"bugs": {
+		"url": "https://github.com/DrVrej/vscplus/issues"
+	},
 	"engines": {
 		"vscode": "^1.56.0"
 	},

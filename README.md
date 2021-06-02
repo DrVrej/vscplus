@@ -4,7 +4,7 @@ Additional customizable tools for Visual Studio Code.
 
 The goal of this extension is to add useful tools and additions to Visual Studio Code that are highly customizable. Features range from commands to status bar and tool bar items.
 
-**[📝 Changelog]()** | **[⚖️ License]()**
+**[📝Changelog]()** | **[⚖️License]()**
 
 ------------------------------------------------------------------
 ## Table of Contents
@@ -82,7 +82,7 @@ This extension contributes the following commands:
 ------------------------------------------------------------------
 ## 📌 Issues & Suggestions
 
-Found a bug or have a suggestion? Feel free to post an issue in the GitHub repository! [click here to go to GitHub issues]()
+Found a bug or have a suggestion? Feel free to post an issue in the GitHub repository! [click here to go to GitHub issues](https://github.com/DrVrej/vscplus/issues)
 > Note: Pull requests on GitHub are also welcome! Code optimizations, bug fixes, and additions are all appreciated!
 
 ------------------------------------------------------------------
