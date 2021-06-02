@@ -155,7 +155,7 @@ async function updateStatusBarFileSize(output: boolean = false) {
 /**
  * Updates the status bar formatting toggle button
  * @param toggle If true, it will toggle the formatting
- * */
+ */
 async function updateStatusBarFormatting(toggle: boolean = false) {
 	if (statusBarFormatting) {
 		let configTriggers = vscode.workspace.getConfiguration("vscplus").get<string>("statusBar.formatButton.triggers");
