@@ -1,0 +1,192 @@
+{
+	"name": "vscplus",
+	"displayName": "VSC+",
+	"description": "Additional customizable tools for Visual Studio Code.",
+	"version": "1.0.0",
+	"publisher": "Vrej",
+	"author": {
+		"name": "DrVrej"
+	},
+	"license": "",
+	"icon": "images/icon.png",
+	"engines": {
+		"vscode": "^1.56.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"keywords": [
+		"tools",
+		"statusbar",
+		"additional",
+		"customizable",
+		"toolsbar",
+		"vscode",
+		"extra"
+	],
+	"activationEvents": [
+		"*"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"configuration": {
+			"type": "object",
+			"title": "VSC+",
+			"properties": {
+				"vscplus.statusBar.reloadButton.enabled": {
+					"type": "boolean",
+					"default": true,
+					"description": "Enable the reload workbench button in the status bar."
+				},
+				"vscplus.statusBar.reloadButton.alignment": {
+					"type": "string",
+					"default": "right",
+					"enum": [
+						"left",
+						"right"
+					],
+					"enumDescriptions": [
+						"Aligns the button to the left side",
+						"Aligns the button to the right side"
+					],
+					"description": "Specifies the reload button's alignment on the status bar."
+				},
+				"vscplus.statusBar.textInfo.enabled": {
+					"type": "boolean",
+					"default": true,
+					"description": "Enable the current file's text information in the status bar."
+				},
+				"vscplus.statusBar.textInfo.alignment": {
+					"type": "string",
+					"default": "right",
+					"enum": [
+						"left",
+						"right"
+					],
+					"enumDescriptions": [
+						"Aligns the info to the left side",
+						"Aligns the info to the right side"
+					],
+					"description": "Specifies the text information alignment on the status bar."
+				},
+				"vscplus.statusBar.textInfo.displaySelection": {
+					"type": "boolean",
+					"default": true,
+					"description": "Toggles whether or not it should display the number of selected lines and characters next to the total count in the status bar."
+				},
+				"vscplus.statusBar.fileSize.enabled": {
+					"type": "boolean",
+					"default": true,
+					"description": "Enable the current file's size information in the status bar."
+				},
+				"vscplus.statusBar.fileSize.alignment": {
+					"type": "string",
+					"default": "right",
+					"enum": [
+						"left",
+						"right"
+					],
+					"enumDescriptions": [
+						"Aligns the info to the left side",
+						"Aligns the info to the right side"
+					],
+					"description": "Specifies the current file's size information alignment on the status bar."
+				},
+				"vscplus.statusBar.formatButton.enabled": {
+					"type": "boolean",
+					"default": true,
+					"description": "Enable the format toggle button on the status bar."
+				},
+				"vscplus.statusBar.formatButton.alignment": {
+					"type": "string",
+					"default": "right",
+					"enum": [
+						"left",
+						"right"
+					],
+					"enumDescriptions": [
+						"Aligns the button to the left side",
+						"Aligns the button to the right side"
+					],
+					"description": "Specifies the format toggle button's alignment on the status bar."
+				},
+				"vscplus.statusBar.formatButton.triggers": {
+					"type": "array",
+					"default": [
+						"onPaste",
+						"onSave",
+						"onType"
+					],
+					"markdownDescription": "Which formatting settings should the toggle change? Accepted items: `onPaste, onSave, onType`, anything else is ignored.",
+					"items": {
+						"type": "string",
+						"pattern": "^(?:onPaste|onSave|onType)$",
+						"patternErrorMessage": "Invalid item detected, valid items: onPaste, onSave, onType"
+					},
+					"uniqueItems": true
+				},
+				"vscplus.toolBar.wordWrapButton.enabled": {
+					"type": "boolean",
+					"default": true,
+					"description": "Enable the word wrap toggle button in the tool bar."
+				}
+			}
+		},
+		"commands": [
+			{
+				"command": "vscplus.reload.workbench",
+				"title": "Reload Current Workbench",
+				"category": "VSC+",
+				"icon": "$(refresh)"
+			},
+			{
+				"command": "vscplus.display.fileinfo",
+				"title": "Display Current File's Information",
+				"category": "VSC+",
+				"icon": "$(info)"
+			},
+			{
+				"command": "vscplus.toggle.formatting",
+				"title": "Toggle File Formatting",
+				"category": "VSC+",
+				"icon": "$(code)"
+			},
+			{
+				"command": "vscplus.toggle.wordwrap",
+				"title": "Toggle Word Wrapping",
+				"category": "VSC+",
+				"icon": "$(word-wrap)"
+			}
+		],
+		"menus": {
+			"editor/title": [
+				{
+					"when": "config.vscplus.toolBar.wordWrapButton.enabled && canToggleWordWrap",
+					"command": "vscplus.toggle.wordwrap",
+					"group": "navigation@-200"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.56.0",
+		"@types/glob": "^7.1.3",
+		"@types/mocha": "^8.0.4",
+		"@types/node": "^12.11.7",
+		"eslint": "^7.19.0",
+		"@typescript-eslint/eslint-plugin": "^4.14.1",
+		"@typescript-eslint/parser": "^4.14.1",
+		"glob": "^7.1.6",
+		"mocha": "^8.2.1",
+		"typescript": "^4.1.3",
+		"vscode-test": "^1.5.0"
+	}
+}
