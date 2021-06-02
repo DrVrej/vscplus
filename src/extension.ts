@@ -38,13 +38,13 @@ export function activate(context: vscode.ExtensionContext) {
 	}));
 
 	// User saves the current active file
-	context.subscriptions.push(vscode.workspace.onDidSaveTextDocument(event => {
+	context.subscriptions.push(vscode.workspace.onDidSaveTextDocument(() => {
 		//console.log("onDidSaveTextDocument");
 		updateStatusBarFileSize();
 	}));
 
 	// Current open document changed
-	context.subscriptions.push(vscode.workspace.onDidChangeTextDocument(event => {
+	context.subscriptions.push(vscode.workspace.onDidChangeTextDocument(() => {
 		//console.log("onDidChangeTextDocument");
 		updateStatusBarTextInfo();
 		updateStatusBarFileSize();
@@ -58,7 +58,7 @@ export function activate(context: vscode.ExtensionContext) {
 	}));
 
 	// User is selecting or moving the editor pointer
-	context.subscriptions.push(vscode.window.onDidChangeTextEditorSelection(event => {
+	context.subscriptions.push(vscode.window.onDidChangeTextEditorSelection(() => {
 		//console.log("onDidChangeTextEditorSelection");
 		updateStatusBarTextInfo();
 	}));
@@ -158,30 +158,23 @@ async function updateStatusBarFileSize(output: boolean = false) {
  * */
 async function updateStatusBarFormatting(toggle: boolean = false) {
 	if (statusBarFormatting) {
-		let configTriggers = vscode.workspace.getConfiguration("vscplus").get("statusBar.formatButton.triggers") as string;
+		let configTriggers = vscode.workspace.getConfiguration("vscplus").get<string>("statusBar.formatButton.triggers");
 		let triggers = {
-			onPaste: configTriggers.includes("onPaste"),
-			onSave: configTriggers.includes("onSave"),
-			onType: configTriggers.includes("onType")
+			onPaste: configTriggers?.includes("onPaste") ?? false,
+			onSave: configTriggers?.includes("onSave") ?? false,
+			onType: configTriggers?.includes("onType") ?? false
 		};
 		//console.log("Triggers:", triggers);
 		let configEditor = vscode.workspace.getConfiguration("editor"); // Default VSCode formatting options
-		let active  = (triggers.onPaste && configEditor.get("formatOnPaste")) || (triggers.onSave && configEditor.get("formatOnSave")) || (triggers.onType && configEditor.get("formatOnType")) || false; // Are any of the formatting options active?
+		let active = (triggers.onPaste && configEditor.get("formatOnPaste")) || (triggers.onSave && configEditor.get("formatOnSave")) || (triggers.onType && configEditor.get("formatOnType")) || false; // Are any of the formatting options active?
 		//console.log("Active:", active);
 
 		// If this was a button press...
 		if (toggle) {
-			if (active) { // If active then deactivate formatting
-				if (triggers.onPaste) { configEditor.update("formatOnPaste", false, vscode.ConfigurationTarget.Global); }
-				if (triggers.onSave) { configEditor.update("formatOnSave", false, vscode.ConfigurationTarget.Global); }
-				if (triggers.onType) { configEditor.update("formatOnType", false, vscode.ConfigurationTarget.Global); }
-				active = false;
-			} else { // If deactivated then active formatting
-				if (triggers.onPaste) { configEditor.update("formatOnPaste", true, vscode.ConfigurationTarget.Global); }
-				if (triggers.onSave) { configEditor.update("formatOnSave", true, vscode.ConfigurationTarget.Global); }
-				if (triggers.onType) { configEditor.update("formatOnType", true, vscode.ConfigurationTarget.Global); }
-				active = true;
-			}
+			active = !active;
+			if (triggers.onPaste) { configEditor.update("formatOnPaste", active, vscode.ConfigurationTarget.Global); }
+			if (triggers.onSave) { configEditor.update("formatOnSave", active, vscode.ConfigurationTarget.Global); }
+			if (triggers.onType) { configEditor.update("formatOnType", active, vscode.ConfigurationTarget.Global); }
 		}
 
 		// Finally, set the appropriate text depending on its active status
