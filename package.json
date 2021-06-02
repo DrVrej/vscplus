@@ -17,6 +17,10 @@
 	"bugs": {
 		"url": "https://github.com/DrVrej/vscplus/issues"
 	},
+	"galleryBanner": {
+		"color": "#ffffff",
+		"theme": "dark"
+	},
 	"engines": {
 		"vscode": "^1.56.0"
 	},
