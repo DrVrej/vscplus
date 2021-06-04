@@ -1,15 +1,15 @@
 // The module 'vscode' contains the VS Code extensibility API
 import * as vscode from 'vscode';
 
-let disposableItems: any = []; // Holds some of the objects, used for disposing
+const disposableItems: vscode.StatusBarItem[] = []; // Holds some of the objects, used for disposing
 
 // Objects
-let statusBarReload: any = null;
-let statusBarTextInfo: any = null;
-let statusBarFileSize: any = null;
-let statusBarFormatting: any = null;
+let statusBarReload: vscode.StatusBarItem | null = null;
+let statusBarTextInfo: vscode.StatusBarItem | null = null;
+let statusBarFileSize: vscode.StatusBarItem | null = null;
+let statusBarFormatting: vscode.StatusBarItem | null = null;
 
-// The main function, called when the extension is activated (Usually when VSCode starts)
+/** The main function, called when the extension is activated (Usually when VSCode starts) */
 export function activate(context: vscode.ExtensionContext) {
 	// Disposable items that should be cleaned up
 	context.subscriptions.push(vscode.commands.registerCommand("vscplus.reload.workbench", function () {
@@ -66,25 +66,28 @@ export function activate(context: vscode.ExtensionContext) {
 	console.log("VSC+ has successfully initialized...");
 }
 
-// Called when the extension is deactivated
+/** Called when the extension is deactivated */
 export function deactivate() {
 	//console.log("VSC+ has been disabled!");
 }
 
-// Dispose all the items and clears the item array
+/** Dispose all the items and clears the item array */
 function disposeItems(): void {
 	disposableItems.splice(0, disposableItems.length).forEach(function (item: any) {
 		item.dispose();
 	});
 }
 
-// Sets an individual item to be disposable
-function disposeSetItem(context: vscode.ExtensionContext, item: any): void {
+/** Sets an individual item to be disposable 
+ * @param context The main extension context
+ * @param item The item to set as disposable
+*/
+function disposeSetItem(context: vscode.ExtensionContext, item: vscode.StatusBarItem): void {
 	context.subscriptions.push(item);
 	disposableItems.push(item);
 }
 
-// Updates the status bar text information
+/** Updates the status bar text information */
 function updateStatusBarTextInfo(): void {
 	// If we have statusBarTextInfo & an active editor, then update statusBarTextInfo's values
 	//console.log("------------");
@@ -113,8 +116,10 @@ function updateStatusBarTextInfo(): void {
 	}
 }
 
-// Updates the status bar file size display
-// @param output: If true, it will output extra information
+/**
+ * Updates the status bar file size display
+ * @param output If true, it will output extra information (Pop up notification)
+*/
 async function updateStatusBarFileSize(output: boolean = false) {
 	if (statusBarFileSize) {
 		let doc: vscode.TextDocument | undefined = vscode.window.activeTextEditor?.document; // Current active document
@@ -150,36 +155,31 @@ async function updateStatusBarFileSize(output: boolean = false) {
 	}
 }
 
-// Updates the status bar formatting toggle button
-// @param toggle: If true, it will toggle the formatting
+/**
+ * Updates the status bar formatting toggle button
+ * @param toggle If true, it will toggle the formatting
+*/
 async function updateStatusBarFormatting(toggle: boolean = false) {
 	if (statusBarFormatting) {
-		let configTriggers: any = vscode.workspace.getConfiguration("vscplus").get("statusBar.formatButton.triggers");
+		let configTriggers: string | undefined = vscode.workspace.getConfiguration("vscplus").get<string>("statusBar.formatButton.triggers");
 		let triggers: { [key: string]: boolean } = {
-			onPaste: configTriggers.includes("onPaste"),
-			onSave: configTriggers.includes("onSave"),
-			onType: configTriggers.includes("onType")
+			onPaste: configTriggers?.includes("onPaste") ?? false,
+			onSave: configTriggers?.includes("onSave") ?? false,
+			onType: configTriggers?.includes("onType") ?? false
 		};
 		//console.log("Triggers:", triggers);
 		let configEditor: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("editor"); // Default VSCode formatting options
-		let active: boolean | undefined = (triggers.onPaste && configEditor.get("formatOnPaste")) || (triggers.onSave && configEditor.get("formatOnSave")) || (triggers.onType && configEditor.get("formatOnType")); // Are any of the formatting options active?
+		let active: boolean = (triggers.onPaste && configEditor.get("formatOnPaste")) || (triggers.onSave && configEditor.get("formatOnSave")) || (triggers.onType && configEditor.get("formatOnType")) || false; // Are any of the formatting options active?
 		//console.log("Active:", active);
 
 		// If this was a button press...
 		if (toggle) {
-			if (active) { // If active then deactivate formatting
-				if (triggers.onPaste) { configEditor.update("formatOnPaste", false, vscode.ConfigurationTarget.Global); }
-				if (triggers.onSave) { configEditor.update("formatOnSave", false, vscode.ConfigurationTarget.Global); }
-				if (triggers.onType) { configEditor.update("formatOnType", false, vscode.ConfigurationTarget.Global); }
-				active = false;
-			} else { // If deactivated then active formatting
-				if (triggers.onPaste) { configEditor.update("formatOnPaste", true, vscode.ConfigurationTarget.Global); }
-				if (triggers.onSave) { configEditor.update("formatOnSave", true, vscode.ConfigurationTarget.Global); }
-				if (triggers.onType) { configEditor.update("formatOnType", true, vscode.ConfigurationTarget.Global); }
-				active = true;
-			}
+			active = !active;
+			if (triggers.onPaste) { configEditor.update("formatOnPaste", active, vscode.ConfigurationTarget.Global); }
+			if (triggers.onSave) { configEditor.update("formatOnSave", active, vscode.ConfigurationTarget.Global); }
+			if (triggers.onType) { configEditor.update("formatOnType", active, vscode.ConfigurationTarget.Global); }
 		}
-
+		
 		// Finally, set the appropriate text depending on its active status
 		if (active) {
 			statusBarFormatting.text = "Format $(pass-filled)";
@@ -189,7 +189,7 @@ async function updateStatusBarFormatting(toggle: boolean = false) {
 	}
 }
 
-// The main function
+/** The main function */
 function activateVSCPlus(context: vscode.ExtensionContext): void {
 	let config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("vscplus");
 

@@ -88,3 +88,4 @@ Found a bug or have a suggestion? Feel free to post an issue in the GitHub repos
 ------------------------------------------------------------------
 ## 🙏 Contributors
 - [DrVrej](https://github.com/DrVrej) - Author of the extension.
+- [Dragoteryx](https://github.com/Dragoteryx) - Code improvements and suggestions

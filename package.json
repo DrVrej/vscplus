@@ -2,7 +2,7 @@
 	"name": "vscplus",
 	"displayName": "VSC+",
 	"description": "Additional customizable tools for Visual Studio Code.",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"publisher": "Vrej",
 	"icon": "images/icon.png",
 	"author": {
@@ -18,7 +18,7 @@
 		"url": "https://github.com/DrVrej/vscplus/issues"
 	},
 	"galleryBanner": {
-		"color": "#ffffff",
+		"color": "#9dceff",
 		"theme": "dark"
 	},
 	"engines": {
@@ -34,7 +34,15 @@
 		"customizable",
 		"toolsbar",
 		"vscode",
-		"extra"
+		"extra",
+		"format",
+		"formatting",
+		"button",
+		"reload",
+		"file",
+		"size",
+		"wordwrap",
+		"toggle"
 	],
 	"activationEvents": [
 		"*"
