@@ -2,7 +2,7 @@
 	"name": "vscplus",
 	"displayName": "VSC+",
 	"description": "Additional customizable tools for Visual Studio Code.",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"publisher": "Vrej",
 	"icon": "images/icon.png",
 	"author": {
@@ -48,6 +48,12 @@
 		"*"
 	],
 	"main": "./out/extension.js",
+	"capabilities": {
+        "virtualWorkspaces": true,
+        "untrustedWorkspaces": {
+            "supported": true
+		}
+    },
 	"contributes": {
 		"configuration": {
 			"type": "object",
