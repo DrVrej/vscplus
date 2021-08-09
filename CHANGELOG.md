@@ -2,7 +2,14 @@
 All notable changes to VSC+ will be documented in this file.  
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 1.0.1 - June 17, 2021
+## 1.0.3 - August 9, 2021
+- Added tooltip icons for the Reload Button, Text Information Display, File Size Display
+- File Size Display now displays the size in all byte sizes when hovered over it (tooltip)
+- Formatting Toggle Button now displays the trigger types and current status when hovered over it (tooltip)
+- Now requires VSCode version 1.59.0+ as it uses the updated StatusBarItem object with MarkdownString object support
+- Updated required package versions
+
+## 1.0.2 - June 17, 2021
 - Added support for Virtual Workspaces
 - Added support for Untrusted Workspaces
 

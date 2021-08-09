@@ -87,6 +87,16 @@ function disposeSetItem(context: vscode.ExtensionContext, item: vscode.StatusBar
 	disposableItems.push(item);
 }
 
+/** Creates and returns a MarkdownString object
+ * @param text The text string it will be initialized with
+*/
+function createRichString(text: string) {
+	let richTooltipText: vscode.MarkdownString = new vscode.MarkdownString(text);
+	richTooltipText.isTrusted = true;
+	richTooltipText.supportThemeIcons = true;
+	return richTooltipText;
+}
+
 /** Updates the status bar text information */
 function updateStatusBarTextInfo(): void {
 	// If we have statusBarTextInfo & an active editor, then update statusBarTextInfo's values
@@ -137,12 +147,15 @@ async function updateStatusBarFileSize(output: boolean = false) {
 				} else {
 					result = byte + " B";
 				}
+				let allCalculations: string = byte + " Bytes | " + (byte / 1000).toFixed(2) + " Kilobytes | " + (byte / 1000000).toFixed(2) + " MegaBytes | " + (byte / 1000000000).toFixed(2) + " Gigabytes";
 				//console.log(result);
 				statusBarFileSize.text = result;
+				statusBarFileSize.tooltip = createRichString(`$(file) Current file's size, click for more information!  
+				` + allCalculations);
 				statusBarFileSize.show();
 				// If we should display the pop up box
 				if (output) {
-					let outputResult: string = doc.fileName + " =      " + byte + " Bytes | " + (byte / 1000).toFixed(2) + " Kilobytes | " + (byte / 1000000).toFixed(2) + " MegaBytes | " + (byte / 1000000000).toFixed(2) + " Gigabytes";
+					let outputResult: string = doc.fileName + " =      " + allCalculations;
 					let infoMsg: string | undefined = await vscode.window.showInformationMessage(outputResult, "Copy Path");
 					if (infoMsg === "Copy Path") {
 						vscode.env.clipboard.writeText(docURI.fsPath);
@@ -179,12 +192,16 @@ async function updateStatusBarFormatting(toggle: boolean = false) {
 			if (triggers.onSave) { configEditor.update("formatOnSave", active, vscode.ConfigurationTarget.Global); }
 			if (triggers.onType) { configEditor.update("formatOnType", active, vscode.ConfigurationTarget.Global); }
 		}
-		
+
 		// Finally, set the appropriate text depending on its active status
 		if (active) {
 			statusBarFormatting.text = "Format $(pass-filled)";
+			statusBarFormatting.tooltip = createRichString(`Toggle file formatting - **$(pass-filled) Enabled**  
+			Triggers: ` + configTriggers);
 		} else {
 			statusBarFormatting.text = "Format $(error)";
+			statusBarFormatting.tooltip = createRichString(`Toggle file formatting - **$(error) Disabled**  
+			Triggers: ` + configTriggers);
 		}
 	}
 }
@@ -200,7 +217,7 @@ function activateVSCPlus(context: vscode.ExtensionContext): void {
 		//statusBarReload.color = new vscode.ThemeColor("statusBarItem.errorForeground");
 		statusBarReload.command = "vscplus.reload.workbench";
 		statusBarReload.text = "$(refresh)";
-		statusBarReload.tooltip = "Reload current workbench";
+		statusBarReload.tooltip = createRichString("$(refresh) Reload current workbench");
 		statusBarReload.show();
 		disposeSetItem(context, statusBarReload);
 	}
@@ -208,7 +225,7 @@ function activateVSCPlus(context: vscode.ExtensionContext): void {
 	// Status bar - Editor & Selection Information
 	if (config.get("statusBar.textInfo.enabled") === true) {
 		statusBarTextInfo = vscode.window.createStatusBarItem(config.get("statusBar.textInfo.alignment") === "right" ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left, 150);
-		statusBarTextInfo.tooltip = "Current file's text information";
+		statusBarTextInfo.tooltip = createRichString("$(selection) Current file's text information");
 		updateStatusBarTextInfo();
 		disposeSetItem(context, statusBarTextInfo);
 	}
@@ -217,7 +234,7 @@ function activateVSCPlus(context: vscode.ExtensionContext): void {
 	if (config.get("statusBar.fileSize.enabled") === true) {
 		statusBarFileSize = vscode.window.createStatusBarItem(config.get("statusBar.fileSize.alignment") === "right" ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left, 151);
 		statusBarFileSize.command = "vscplus.display.fileinfo";
-		statusBarFileSize.tooltip = "Current file's size, click for more information!";
+		//statusBarFileSize.tooltip = createRichString("$(file) Current file's size, click for more information!");
 		updateStatusBarFileSize();
 		disposeSetItem(context, statusBarFileSize);
 	}
@@ -226,7 +243,7 @@ function activateVSCPlus(context: vscode.ExtensionContext): void {
 	if (config.get("statusBar.formatButton.enabled") === true) {
 		statusBarFormatting = vscode.window.createStatusBarItem(config.get("statusBar.formatButton.alignment") === "right" ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left, -9);
 		statusBarFormatting.command = "vscplus.toggle.formatting";
-		statusBarFormatting.tooltip = "Toggle file formatting";
+		//statusBarFormatting.tooltip = createRichString(`Toggle file formatting`);
 		updateStatusBarFormatting();
 		statusBarFormatting.show();
 		disposeSetItem(context, statusBarFormatting);
