@@ -2,7 +2,7 @@
 All notable changes to VSC+ will be documented in this file.  
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 1.0.4 - February 17, 2022
+## 1.1.0 - February 17, 2022
 - Added web version of the extension! (NOTE: Some features are limited!)
 - All required packages have been updated
 
