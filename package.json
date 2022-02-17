@@ -2,7 +2,7 @@
 	"name": "vscplus",
 	"displayName": "VSC+",
 	"description": "Additional customizable tools for Visual Studio Code.",
-	"version": "1.0.4",
+	"version": "1.0.4b",
 	"publisher": "Vrej",
 	"icon": "images/icon.png",
 	"author": {
