@@ -1,13 +1,16 @@
 # Changelog
-All notable changes to VSC+ will be documented in this file.  
+All notable changes to VSC+ will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.1.2 - December 14, 2022
+- Updated all required packages
+
 ## 1.1.1 - August 3, 2022
-- All required packages have been updated
+- Updated all required packages
 
 ## 1.1.0 - February 17, 2022
 - Added web version of the extension! (NOTE: Some features are limited!)
-- All required packages have been updated
+- Updated all required packages
 
 ## 1.0.3 - August 9, 2021
 - Added tooltip icons for the Reload Button, Text Information Display, File Size Display
