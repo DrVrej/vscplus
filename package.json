@@ -223,7 +223,7 @@
 		"@vscode/test-web": "^0.0.22",
 		"eslint": "^7.32.0",
 		"glob": "^7.1.6",
-		"mocha": "^8.2.1",
+		"mocha": "^10.7.3",
 		"process": "^0.11.10",
 		"ts-loader": "^9.2.2",
 		"typescript": "^4.3.5",
@@ -239,6 +239,6 @@
 		"timers-browserify": "^2.0.12",
 		"url": "^0.11.0",
 		"util": "^0.12.4",
-		"vsce": "^2.6.7"
+		"vsce": "^1.97.0"
 	}
 }
