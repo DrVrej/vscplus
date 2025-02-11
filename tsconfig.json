@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"skipLibCheck": true, // Stop type checking in the node modules as it may prevent it from compiling
 		"module": "commonjs",
 		"target": "es6",
 		"outDir": "out",
