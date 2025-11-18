@@ -2,6 +2,11 @@
 All notable changes to VSC+ will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.1.8 - November 17, 2025
+- Applied unique ID for each status bar item, this will allow disabling them individually when status bar context menu is opened
+- Added names for each status bar item
+- Updated all required packages
+
 ## 1.1.7 - February 11, 2025
 - Updated `README` file
 - Updated all required packages

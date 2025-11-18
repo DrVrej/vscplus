@@ -78,7 +78,7 @@ function disposeItems(): void {
 	});
 }
 
-/** Sets an individual item to be disposable 
+/** Sets an individual item to be disposable
  * @param context The main extension context
  * @param item The item to set as disposable
 */
@@ -174,7 +174,7 @@ async function updateStatusBarFileSize(output: boolean = false) {
 */
 async function updateStatusBarFormatting(toggle: boolean = false) {
 	if (statusBarFormatting) {
-		let configTriggers: string | undefined = vscode.workspace.getConfiguration("vscplus").get<string>("statusBar.formatButton.triggers");
+		let configTriggers: string[] | undefined = vscode.workspace.getConfiguration("vscplus").get<string[]>("statusBar.formatButton.triggers");
 		let triggers: { [key: string]: boolean } = {
 			onPaste: configTriggers?.includes("onPaste") ?? false,
 			onSave: configTriggers?.includes("onSave") ?? false,
@@ -212,38 +212,42 @@ function activateVSCPlus(context: vscode.ExtensionContext): void {
 
 	// Status bar - Reload button
 	if (config.get("statusBar.reloadButton.enabled") === true) {
-		statusBarReload = vscode.window.createStatusBarItem(config.get("statusBar.reloadButton.alignment") === "right" ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left, -10);
+		statusBarReload = vscode.window.createStatusBarItem("vscplus.reloadButton", config.get("statusBar.reloadButton.alignment") === "right" ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left, -10);
 		//statusBarReload.backgroundColor = new vscode.ThemeColor("statusBarItem.errorBackground");
 		//statusBarReload.color = new vscode.ThemeColor("statusBarItem.errorForeground");
 		statusBarReload.command = "vscplus.reload.workbench";
 		statusBarReload.text = "$(refresh)";
 		statusBarReload.tooltip = createRichString("$(refresh) Reload current workbench");
+		statusBarReload.name = "VSC+ | Reload Button"; // Useful when individually disabling an item from the status bar after right clicking
 		statusBarReload.show();
 		disposeSetItem(context, statusBarReload);
 	}
 
 	// Status bar - Editor & Selection Information
 	if (config.get("statusBar.textInfo.enabled") === true) {
-		statusBarTextInfo = vscode.window.createStatusBarItem(config.get("statusBar.textInfo.alignment") === "right" ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left, 150);
+		statusBarTextInfo = vscode.window.createStatusBarItem("vscplus.textInfo", config.get("statusBar.textInfo.alignment") === "right" ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left, 150);
 		statusBarTextInfo.tooltip = createRichString("$(selection) Current file's text information");
+		statusBarTextInfo.name = "VSC+ | Text Information"; // Useful when individually disabling an item from the status bar after right clicking
 		updateStatusBarTextInfo();
 		disposeSetItem(context, statusBarTextInfo);
 	}
 
 	// Status bar - File Size
 	if (config.get("statusBar.fileSize.enabled") === true) {
-		statusBarFileSize = vscode.window.createStatusBarItem(config.get("statusBar.fileSize.alignment") === "right" ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left, 151);
+		statusBarFileSize = vscode.window.createStatusBarItem("vscplus.fileSize", config.get("statusBar.fileSize.alignment") === "right" ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left, 151);
 		statusBarFileSize.command = "vscplus.display.fileinfo";
 		//statusBarFileSize.tooltip = createRichString("$(file) Current file's size, click for more information!");
+		statusBarFileSize.name = "VSC+ | File Size Information"; // Useful when individually disabling an item from the status bar after right clicking
 		updateStatusBarFileSize();
 		disposeSetItem(context, statusBarFileSize);
 	}
 
 	// Status bar - Formatting Toggle
 	if (config.get("statusBar.formatButton.enabled") === true) {
-		statusBarFormatting = vscode.window.createStatusBarItem(config.get("statusBar.formatButton.alignment") === "right" ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left, -9);
+		statusBarFormatting = vscode.window.createStatusBarItem("vscplus.formatButton", config.get("statusBar.formatButton.alignment") === "right" ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left, -9);
 		statusBarFormatting.command = "vscplus.toggle.formatting";
 		//statusBarFormatting.tooltip = createRichString(`Toggle file formatting`);
+		statusBarFormatting.name = "VSC+ | Format Button"; // Useful when individually disabling an item from the status bar after right clicking
 		updateStatusBarFormatting();
 		statusBarFormatting.show();
 		disposeSetItem(context, statusBarFormatting);
