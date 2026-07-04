@@ -2,14 +2,14 @@
 	"compilerOptions": {
 		"skipLibCheck": true, // Stop type checking in the node modules as it may prevent it from compiling
 		"module": "commonjs",
-		"target": "es6",
-		"outDir": "out",
+		"target": "ES2024",
 		"lib": [
-			"es6"
+			"ES2024"
 		],
-		"sourceMap": true,
+		"outDir": "out",
 		"rootDir": "src",
-		"strict": true   /* enable all strict type-checking options */
+		"sourceMap": true,
+		"strict": true /* enable all strict type-checking options */
 		/* Additional Checks */
 		// "noImplicitReturns": true, /* Report error when not all code paths in function return a value. */
 		// "noFallthroughCasesInSwitch": true, /* Report errors for fallthrough cases in switch statement. */

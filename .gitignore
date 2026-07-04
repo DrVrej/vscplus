@@ -1,9 +1,10 @@
-node_modules
+# Base VS Code
 out
 dist
-.vscode-test
-.vscode-test-web
-
+node_modules
+.vscode-test/
+.vscode-test-web/
 *.vsix
 
-myfiles
+# Custom
+myfiles/
