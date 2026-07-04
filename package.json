@@ -2,7 +2,7 @@
 	"name": "vscplus",
 	"displayName": "VSC+",
 	"description": "Additional customizable tools for Visual Studio Code.",
-	"version": "1.1.8",
+	"version": "1.1.9",
 	"publisher": "Vrej",
 	"icon": "images/icon.png",
 	"author": {
@@ -232,7 +232,7 @@
 		"webpack-cli": "^4.7.0"
 	},
 	"dependencies": {
-		"@vscode/vsce": "^3.2.2",
+		"@vscode/vsce": "^3.9.2",
 		"assert": "^2.0.0",
 		"path-browserify": "^1.0.1",
 		"stream-browserify": "^3.0.0",

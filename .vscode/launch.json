@@ -38,11 +38,13 @@
 			"debugWebWorkerHost": true,
 			"request": "launch",
 			"args": [
-			  "--extensionDevelopmentPath=${workspaceFolder}",
-			  "--extensionDevelopmentKind=web"
+				"--extensionDevelopmentPath=${workspaceFolder}",
+				"--extensionDevelopmentKind=web"
 			],
-			"outFiles": ["${workspaceFolder}/dist/web/**/*.js"],
+			"outFiles": [
+				"${workspaceFolder}/dist/web/**/*.js"
+			],
 			"preLaunchTask": "npm: watch-web"
-		  }
+		}
 	]
 }

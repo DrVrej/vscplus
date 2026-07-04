@@ -1,5 +1,4 @@
 # 🛠️ Visual Studio Code+ (VSC+) ⚒️
-
 Additional customizable tools for Visual Studio Code.
 
 The goal of this extension is to add useful tools and additions to Visual Studio Code that are highly customizable. Features range from commands to status bar and tool bar items.
@@ -48,7 +47,6 @@ __Word Wrap Toggle Button__
 
 ------------------------------------------------------------------
 ## ⚙️ Extension Settings
-
 This extension contributes the following settings:
 - `vscplus.statusBar.reloadButton.enabled`: Enable the reload workbench button in the status bar.  
 - `vscplus.statusBar.reloadButton.alignment`: Specifies the reload button's alignment on the status bar.  
@@ -64,8 +62,7 @@ This extension contributes the following settings:
 
 ------------------------------------------------------------------
 ## 📗 Extension Commands
-
-This extension contributes the following commands:  
+This extension contributes the following commands:
 - `vscplus.reload.workbench`: Reload current workbench  
 - `vscplus.display.fileinfo`: Display Current File's Information  
 - `vscplus.toggle.formatting`: Toggle File Formatting  
@@ -73,9 +70,8 @@ This extension contributes the following commands:
 
 ------------------------------------------------------------------
 ## 📌 Issues & Suggestions
-
 Found a bug or have a suggestion? Feel free to post an issue in the GitHub repository! [click here to go to GitHub issues](https://github.com/DrVrej/vscplus/issues)
-> Note: Pull requests on GitHub are also welcome! Code optimizations, bug fixes, and additions are all appreciated!
+> Note: Pull requests are also welcome!
 
 ------------------------------------------------------------------
 ## 🙏 Contributors
