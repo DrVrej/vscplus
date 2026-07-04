@@ -8,7 +8,7 @@ const webExtensionConfig = {
   target: 'webworker', // extensions run in a webworker context
   entry: {
     extension: './src/extension.ts', // source of the web extension main file
-    'test/suite/index': './src/test/suite/index.ts' // source of the web extension test runner
+    'test/suite/index': './src/web/test/suite/index.ts' // source of the web extension test runner
   },
   output: {
     filename: '[name].js',
@@ -26,30 +26,7 @@ const webExtensionConfig = {
       // Webpack 5 no longer polyfills Node.js core modules automatically.
       // see https://webpack.js.org/configuration/resolve/#resolvefallback
       // for the list of Node.js core module polyfills.
-      assert: require.resolve('assert'),
-      buffer: require.resolve('buffer'),
-     // console: require.resolve('console-browserify'),
-     // constants: require.resolve('constants-browserify'),
-     // crypto: require.resolve('crypto-browserify'),
-     // domain: require.resolve('domain-browser'),
-      events: require.resolve('events'),
-     // http: require.resolve('stream-http'),
-     // https: require.resolve('https-browserify'),
-     // os: require.resolve('os-browserify/browser'),
-      path: require.resolve('path-browserify'),
-      punycode: require.resolve('punycode'),
-      process: require.resolve('process/browser'),
-     // querystring: require.resolve('querystring-es3'),
-      stream: require.resolve('stream-browserify'),
-      string_decoder: require.resolve('string_decoder'),
-      sys: require.resolve('util'),
-      timers: require.resolve('timers-browserify'),
-     // tty: require.resolve('tty-browserify'),
-      url: require.resolve('url'),
-      util: require.resolve('util'),
-     // vm: require.resolve('vm-browserify'),
-     // zlib: require.resolve('browserify-zlib'),
-	 fs: false
+      assert: require.resolve('assert')
     }
   },
   module: {
@@ -68,12 +45,7 @@ const webExtensionConfig = {
   plugins: [
     new webpack.ProvidePlugin({
       process: 'process/browser' // provide a shim for the global `process` variable
-    }),
-	// Work around for Buffer is undefined:
-	// https://github.com/webpack/changelog-v5/issues/10
-	new webpack.ProvidePlugin({
-		Buffer: ['buffer', 'Buffer'],
-	}),
+    })
   ],
   externals: {
     vscode: 'commonjs vscode' // ignored because it doesn't exist

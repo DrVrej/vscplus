@@ -4,7 +4,15 @@
 		"module": "commonjs",
 		"target": "ES2024",
 		"lib": [
-			"ES2024"
+			"ES2024",
+			"DOM",
+			"WebWorker"
+		],
+		"types": [
+			"node",
+			"mocha",
+			"vscode",
+			"webpack-env"
 		],
 		"outDir": "out",
 		"rootDir": "src",
@@ -17,6 +25,7 @@
 	},
 	"exclude": [
 		"node_modules",
-		".vscode-test"
+		".vscode-test",
+		".vscode-test-web"
 	]
 }
