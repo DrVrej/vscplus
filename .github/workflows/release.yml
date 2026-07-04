@@ -13,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v6
         with:
-          node-version: 23.x
+          node-version: 24.x
           registry-url: https://registry.npmjs.org/
 
       - name: Install the dependencies
@@ -25,5 +25,5 @@ jobs:
       - name: Install @vscode/vsce
         run: npm i -g @vscode/vsce
 
-      - name: Publish
-        run: vsce publish -p ${{ secrets.VSCE_PAT }}
+      # - name: Publish
+      #   run: vsce publish -p ${{ secrets.VSCE_PAT }}
