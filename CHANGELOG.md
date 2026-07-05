@@ -2,7 +2,7 @@
 All notable changes to VSC+ will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 1.1.9 - July 4, 2026
+## 1.1.9 - July 5, 2026
 - Applied various performance optimizations
 - Now requires VS Code version 1.100.0 or greater
 - Reduced number of files
