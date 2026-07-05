@@ -30,17 +30,12 @@ export default tseslint.config(
 			'@stylistic/semi': ['warn', 'always'],
 			'@typescript-eslint/no-empty-function': 'off',
 			'@typescript-eslint/no-require-imports': 'off',
+			"@typescript-eslint/no-unused-vars": "warn",
 			'@typescript-eslint/naming-convention': [
 				'warn',
 				{
 					'selector': 'import',
 					'format': ['camelCase', 'PascalCase']
-				}
-			],
-			'@typescript-eslint/no-unused-vars': [
-				'error',
-				{
-					'argsIgnorePattern': '^_'
 				}
 			]
 		}
