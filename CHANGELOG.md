@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## 1.1.9 - July 5, 2026
 - Applied various performance optimizations
-- Now requires VS Code version 1.100.0 or greater
+- Now requires VS Code version 1.125.0 or greater
 - Reduced number of files
 - Updated extension information
 - Updated all packages
