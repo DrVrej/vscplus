@@ -2,6 +2,10 @@
 All notable changes to VSC+ will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.1.10
+- Reduced the number of packages (Removed ~140 packages)
+- Updated all packages
+
 ## 1.1.9 - July 5, 2026
 - Applied various performance optimizations
 - Now requires VS Code version 1.125.0 or greater
