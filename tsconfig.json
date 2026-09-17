@@ -10,9 +10,7 @@
 		],
 		"types": [
 			"node",
-			"mocha",
-			"vscode",
-			"webpack-env"
+			"vscode"
 		],
 		"outDir": "out",
 		"rootDir": "src",

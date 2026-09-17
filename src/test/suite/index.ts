@@ -1,38 +1,32 @@
-import * as path from 'path';
-import Mocha = require('mocha');
-import { glob } from 'glob';
+import * as vscode from "vscode";
 
 export async function run(): Promise<void> {
-	// Create the mocha test
-	const mocha = new Mocha({
-		ui: 'tdd'
-	});
+	const extension = vscode.extensions.getExtension("Vrej.vscplus");
 
-	const testsRoot = path.resolve(__dirname, '..');
+	if (!extension) {
+		throw new Error("VSC+ was not found in the extension host.");
+	}
 
-	const files = await glob('**/**.test.js', {
-		cwd: testsRoot,
-		nodir: true
-	});
+	await extension.activate();
 
-	// Add files to the test suite
-	files.forEach((file: string) => {
-		mocha.addFile(path.resolve(testsRoot, file));
-	});
+	if (!extension.isActive) {
+		throw new Error("VSC+ did not activate.");
+	}
 
-	return new Promise<void>((resolve, reject) => {
-		try {
-			// Run the mocha test
-			mocha.run((failures: number) => {
-				if (failures > 0) {
-					reject(new Error(`${failures} tests failed.`));
-				} else {
-					resolve();
-				}
-			});
-		} catch (err) {
-			console.error(err);
-			reject(err);
+	const commands = new Set(await vscode.commands.getCommands(true));
+
+	const expectedCommands = [
+		"vscplus.reload.workbench",
+		"vscplus.display.fileinfo",
+		"vscplus.toggle.formatting",
+		"vscplus.toggle.wordwrap"
+	];
+
+	for (const command of expectedCommands) {
+		if (!commands.has(command)) {
+			throw new Error(`Missing VSC+ command: ${command}`);
 		}
-	});
+	}
+
+	console.log("VSC+ activation and command availability checks passed.");
 }

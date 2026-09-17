@@ -7,8 +7,9 @@
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import stylistic from '@stylistic/eslint-plugin';
+import { defineConfig } from "eslint/config";
 
-export default tseslint.config(
+export default defineConfig(
 	{
 		ignores: [
 			'.vscode-test',

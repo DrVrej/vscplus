@@ -9,6 +9,7 @@
 			"name": "Run Extension",
 			"type": "extensionHost",
 			"request": "launch",
+			"runtimeExecutable": "${execPath}",
 			"args": [
 				"--disable-extensions",
 				"--extensionDevelopmentPath=${workspaceFolder}"
@@ -16,12 +17,13 @@
 			"outFiles": [
 				"${workspaceFolder}/out/**/*.js"
 			],
-			"preLaunchTask": "${defaultBuildTask}"
+			"preLaunchTask": "npm: watch"
 		},
 		{
 			"name": "Run Extension Tests",
 			"type": "extensionHost",
 			"request": "launch",
+			"runtimeExecutable": "${execPath}",
 			"args": [
 				"--disable-extensions",
 				"--extensionDevelopmentPath=${workspaceFolder}",
@@ -30,16 +32,31 @@
 			"outFiles": [
 				"${workspaceFolder}/out/test/**/*.js"
 			],
-			"preLaunchTask": "${defaultBuildTask}"
+			"preLaunchTask": "npm: watch"
 		},
 		{
-			"name": "Run Extension (Web)",
-			"type": "pwa-extensionHost",
+			"name": "Run Web Extension",
+			"type": "extensionHost",
 			"debugWebWorkerHost": true,
 			"request": "launch",
 			"args": [
 				"--extensionDevelopmentPath=${workspaceFolder}",
 				"--extensionDevelopmentKind=web"
+			],
+			"outFiles": [
+				"${workspaceFolder}/dist/web/**/*.js"
+			],
+			"preLaunchTask": "npm: watch-web"
+		},
+		{
+			"name": "Run Web Extension Tests",
+			"type": "extensionHost",
+			"debugWebWorkerHost": true,
+			"request": "launch",
+			"args": [
+				"--extensionDevelopmentPath=${workspaceFolder}",
+				"--extensionDevelopmentKind=web",
+				"--extensionTestsPath=${workspaceFolder}/dist/web/test/suite/index"
 			],
 			"outFiles": [
 				"${workspaceFolder}/dist/web/**/*.js"

@@ -1,6 +1,8 @@
 name: Release
+
 permissions:
   contents: read
+
 on:
   release:
     types:
@@ -17,13 +19,11 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24.x
-          registry-url: https://registry.npmjs.org/
 
-      - name: Install the dependencies
-        run: npm i
-
-      - name: Install @vscode/vsce
-        run: npm i -g @vscode/vsce
+      - name: Install dependencies
+        run: npm ci
 
       - name: Publish
-        run: vsce publish -p ${{ secrets.VSCE_PAT }}
+        run: npx --yes @vscode/vsce publish
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}

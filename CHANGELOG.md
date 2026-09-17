@@ -2,6 +2,10 @@
 All notable changes to VSC+ will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.1.11 - September 17, 2026
+- Greatly reduced file size
+- Removed bunch of packages
+
 ## 1.1.10 - September 15, 2026
 - Reduced the number of packages (Removed ~140 packages)
 - Updated all packages
