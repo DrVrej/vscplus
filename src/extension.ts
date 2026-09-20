@@ -1,8 +1,6 @@
 // The module 'vscode' contains the VS Code extensibility API
 import * as vscode from 'vscode';
 
-const disposableItems: vscode.Disposable[] = []; // Holds some of the objects for disposing
-
 // Objects
 let statusBarReload: vscode.StatusBarItem | null = null;
 let statusBarTextInfo: vscode.StatusBarItem | null = null;
@@ -25,7 +23,7 @@ export function activate(context: vscode.ExtensionContext): void {
 		updateStatusBarFormatting(true);
 	}));
 
-	activateVSCPlus(context);
+	activateVSCPlus();
 
 	// Events & Listeners
 	// Settings was changed
@@ -33,7 +31,7 @@ export function activate(context: vscode.ExtensionContext): void {
 		// Refresh this extension if one its settings has changed or vscode editor settings changed
 		if (event.affectsConfiguration("vscplus") || event.affectsConfiguration("editor")) {
 			disposeItems();
-			activateVSCPlus(context);
+			activateVSCPlus();
 		}
 	}));
 
@@ -70,24 +68,17 @@ export function activate(context: vscode.ExtensionContext): void {
 //	//console.log("VSC+ has been disabled!");
 //}
 
-/** Dispose all the items and clears the item array */
+/** Dispose all status bar items and clear their references. */
 function disposeItems(): void {
-	disposableItems.splice(0).forEach((item) => {
-		item.dispose();
-	});
+	statusBarReload?.dispose();
+	statusBarTextInfo?.dispose();
+	statusBarFileSize?.dispose();
+	statusBarFormatting?.dispose();
+
 	statusBarReload = null;
 	statusBarTextInfo = null;
 	statusBarFileSize = null;
 	statusBarFormatting = null;
-}
-
-/** Sets an individual item to be disposable
- * @param context The main extension context
- * @param item The item to set as disposable
-*/
-function disposeSetItem(context: vscode.ExtensionContext, item: vscode.Disposable): void {
-	context.subscriptions.push(item);
-	disposableItems.push(item);
 }
 
 /** Updates the status bar text information */
@@ -200,7 +191,7 @@ async function updateStatusBarFormatting(toggle = false): Promise<void> {
 }
 
 /** The main function */
-function activateVSCPlus(context: vscode.ExtensionContext): void {
+function activateVSCPlus(): void {
 	const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("vscplus");
 
 	// Status bar - Reload button
@@ -213,7 +204,6 @@ function activateVSCPlus(context: vscode.ExtensionContext): void {
 		statusBarReload.tooltip = new vscode.MarkdownString("$(refresh) Reload current workbench", true);
 		statusBarReload.name = "VSC+ | Reload Button"; // Useful when individually disabling an item from the status bar after right clicking
 		statusBarReload.show();
-		disposeSetItem(context, statusBarReload);
 	}
 
 	// Status bar - Editor & Selection Information
@@ -222,7 +212,6 @@ function activateVSCPlus(context: vscode.ExtensionContext): void {
 		statusBarTextInfo.tooltip = new vscode.MarkdownString("$(selection) Current file's text information", true);
 		statusBarTextInfo.name = "VSC+ | Text Information"; // Useful when individually disabling an item from the status bar after right clicking
 		updateStatusBarTextInfo();
-		disposeSetItem(context, statusBarTextInfo);
 	}
 
 	// Status bar - File Size
@@ -232,7 +221,6 @@ function activateVSCPlus(context: vscode.ExtensionContext): void {
 		//statusBarFileSize.tooltip = new vscode.MarkdownString("$(file) Current file's size, click for more information!", true);
 		statusBarFileSize.name = "VSC+ | File Size Information"; // Useful when individually disabling an item from the status bar after right clicking
 		updateStatusBarFileSize();
-		disposeSetItem(context, statusBarFileSize);
 	}
 
 	// Status bar - Formatting Toggle
@@ -243,7 +231,6 @@ function activateVSCPlus(context: vscode.ExtensionContext): void {
 		statusBarFormatting.name = "VSC+ | Format Button"; // Useful when individually disabling an item from the status bar after right clicking
 		updateStatusBarFormatting();
 		statusBarFormatting.show();
-		disposeSetItem(context, statusBarFormatting);
 	}
 
 	//console.log(context.subscriptions);
