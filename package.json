@@ -2,7 +2,7 @@
 	"name": "vscplus",
 	"displayName": "VSC+",
 	"description": "Additional customizable tools for Visual Studio Code.",
-	"version": "1.1.11",
+	"version": "1.1.12",
 	"publisher": "Vrej",
 	"icon": "images/icon.png",
 	"author": {
@@ -150,8 +150,11 @@
 					"markdownDescription": "Which formatting settings should the toggle change? Accepted items: `onPaste, onSave, onType`, anything else is ignored.",
 					"items": {
 						"type": "string",
-						"pattern": "^(?:onPaste|onSave|onType)$",
-						"patternErrorMessage": "Invalid item detected, valid items: onPaste, onSave, onType"
+						"enum": [
+							"onPaste",
+							"onSave",
+							"onType"
+						]
 					},
 					"uniqueItems": true
 				},
