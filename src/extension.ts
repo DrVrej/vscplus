@@ -36,15 +36,19 @@ export function activate(context: vscode.ExtensionContext): void {
 	}));
 
 	// User saves the current active file
-	context.subscriptions.push(vscode.workspace.onDidSaveTextDocument(function () {
+	context.subscriptions.push(vscode.workspace.onDidSaveTextDocument(function (event) {
 		//console.log("onDidSaveTextDocument");
-		updateStatusBarFileSize();
+		if (event === vscode.window.activeTextEditor?.document) {
+			updateStatusBarFileSize();
+		}
 	}));
 
 	// Current open document changed
-	context.subscriptions.push(vscode.workspace.onDidChangeTextDocument(function () {
+	context.subscriptions.push(vscode.workspace.onDidChangeTextDocument(function (event) {
 		//console.log("onDidChangeTextDocument");
-		updateStatusBarTextInfo();
+		if (event.document === vscode.window.activeTextEditor?.document) {
+			updateStatusBarTextInfo();
+		}
 	}));
 
 	// Current text editor completely changed
@@ -52,12 +56,15 @@ export function activate(context: vscode.ExtensionContext): void {
 		//console.log("onDidChangeActiveTextEditor");
 		updateStatusBarTextInfo();
 		updateStatusBarFileSize();
+		updateStatusBarFormatting();
 	}));
 
 	// User is selecting or moving the editor pointer
-	context.subscriptions.push(vscode.window.onDidChangeTextEditorSelection(function () {
+	context.subscriptions.push(vscode.window.onDidChangeTextEditorSelection(function (event) {
 		//console.log("onDidChangeTextEditorSelection");
-		updateStatusBarTextInfo();
+		if (event.textEditor === vscode.window.activeTextEditor) {
+			updateStatusBarTextInfo();
+		}
 	}));
 
 	console.log("VSC+ has successfully initialized...");
@@ -93,13 +100,14 @@ function updateStatusBarTextInfo(): void {
 			if (vscode.workspace.getConfiguration("vscplus").get("statusBar.textInfo.displaySelection") === true) {
 				let selectionLines = 0; // Number of lines selected
 				let selectionChars = 0; // Number of characters selected
-				editor.selections.forEach(selection => {
+				for (const selection of editor.selections) {
+					if (selection.isEmpty) { continue; }
 					selectionLines += selection.end.line - selection.start.line + 1;
-					selectionChars += Math.abs(editorDoc.offsetAt(selection.end) - editorDoc.offsetAt(selection.start));
-				});
+					selectionChars += editorDoc.offsetAt(selection.end) - editorDoc.offsetAt(selection.start);
+				}
 				// If something has been selected then display the selection info as well
 				if (selectionLines > 0 && selectionChars > 0) {
-					finalText += " (Sel: " + selectionLines + " Lns, " + selectionChars + " Chs)";
+					finalText += ` (Sel: ${selectionLines} Lns, ${selectionChars} Chs)`;
 				}
 			}
 			statusBarTextInfo.text = finalText;
