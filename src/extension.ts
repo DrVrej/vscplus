@@ -66,9 +66,9 @@ export function activate(context: vscode.ExtensionContext): void {
 }
 
 /** Called when the extension is deactivated */
-export function deactivate(): void {
-	//console.log("VSC+ has been disabled!");
-}
+//export function deactivate(): void {
+//	//console.log("VSC+ has been disabled!");
+//}
 
 /** Dispose all the items and clears the item array */
 function disposeItems(): void {
@@ -88,16 +88,6 @@ function disposeItems(): void {
 function disposeSetItem(context: vscode.ExtensionContext, item: vscode.Disposable): void {
 	context.subscriptions.push(item);
 	disposableItems.push(item);
-}
-
-/** Creates and returns a MarkdownString object
- * @param text The text string it will be initialized with
-*/
-function createRichString(text: string): vscode.MarkdownString {
-	const richTooltipText: vscode.MarkdownString = new vscode.MarkdownString(text);
-	richTooltipText.isTrusted = true;
-	richTooltipText.supportThemeIcons = true;
-	return richTooltipText;
 }
 
 /** Updates the status bar text information */
@@ -141,20 +131,20 @@ async function updateStatusBarFileSize(output = false): Promise<void> {
 			if (docURI.scheme !== "untitled") { // Exclude untitled files
 				const byte: number = (await vscode.workspace.fs.stat(docURI)).size;
 				let result: string;
-				if (byte >= 1073741824) {
-					result = (byte / 1000000000).toFixed(2) + " GB";
-				} else if (byte >= 1048576) {
-					result = (byte / 1000000).toFixed(2) + " MB";
-				} else if (byte >= 1024) {
-					result = (byte / 1000).toFixed(2) + " KB";
+				if (byte >= 1e9) {
+					result = (byte / 1e9).toFixed(2) + " GB";
+				} else if (byte >= 1e6) {
+					result = (byte / 1e6).toFixed(2) + " MB";
+				} else if (byte >= 1e3) {
+					result = (byte / 1e3).toFixed(2) + " KB";
 				} else {
 					result = byte + " B";
 				}
 				const allCalculations: string = byte + " Bytes | " + (byte / 1000).toFixed(2) + " Kilobytes | " + (byte / 1000000).toFixed(2) + " MegaBytes | " + (byte / 1000000000).toFixed(2) + " Gigabytes";
 				//console.log(result);
 				statusBarFileSize.text = result;
-				statusBarFileSize.tooltip = createRichString(`$(file) Current file's size, click for more information!  
-				` + allCalculations);
+				statusBarFileSize.tooltip = new vscode.MarkdownString(`$(file) Current file's size, click for more information!  
+				` + allCalculations, true);
 				statusBarFileSize.show();
 				// If we should display the pop up box
 				if (output) {
@@ -199,12 +189,12 @@ async function updateStatusBarFormatting(toggle = false): Promise<void> {
 		// Finally, set the appropriate text depending on its active status
 		if (active) {
 			statusBarFormatting.text = "Format $(pass-filled)";
-			statusBarFormatting.tooltip = createRichString(`Toggle file formatting - **$(pass-filled) Enabled**  
-			Triggers: ` + configTriggers);
+			statusBarFormatting.tooltip = new vscode.MarkdownString(`Toggle file formatting - **$(pass-filled) Enabled**  
+			Triggers: ` + configTriggers, true);
 		} else {
 			statusBarFormatting.text = "Format $(error)";
-			statusBarFormatting.tooltip = createRichString(`Toggle file formatting - **$(error) Disabled**  
-			Triggers: ` + configTriggers);
+			statusBarFormatting.tooltip = new vscode.MarkdownString(`Toggle file formatting - **$(error) Disabled**  
+			Triggers: ` + configTriggers, true);
 		}
 	}
 }
@@ -220,7 +210,7 @@ function activateVSCPlus(context: vscode.ExtensionContext): void {
 		//statusBarReload.color = new vscode.ThemeColor("statusBarItem.errorForeground");
 		statusBarReload.command = "vscplus.reload.workbench";
 		statusBarReload.text = "$(refresh)";
-		statusBarReload.tooltip = createRichString("$(refresh) Reload current workbench");
+		statusBarReload.tooltip = new vscode.MarkdownString("$(refresh) Reload current workbench", true);
 		statusBarReload.name = "VSC+ | Reload Button"; // Useful when individually disabling an item from the status bar after right clicking
 		statusBarReload.show();
 		disposeSetItem(context, statusBarReload);
@@ -229,7 +219,7 @@ function activateVSCPlus(context: vscode.ExtensionContext): void {
 	// Status bar - Editor & Selection Information
 	if (config.get("statusBar.textInfo.enabled") === true) {
 		statusBarTextInfo = vscode.window.createStatusBarItem("vscplus.textInfo", config.get("statusBar.textInfo.alignment") === "right" ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left, 150);
-		statusBarTextInfo.tooltip = createRichString("$(selection) Current file's text information");
+		statusBarTextInfo.tooltip = new vscode.MarkdownString("$(selection) Current file's text information", true);
 		statusBarTextInfo.name = "VSC+ | Text Information"; // Useful when individually disabling an item from the status bar after right clicking
 		updateStatusBarTextInfo();
 		disposeSetItem(context, statusBarTextInfo);
@@ -239,7 +229,7 @@ function activateVSCPlus(context: vscode.ExtensionContext): void {
 	if (config.get("statusBar.fileSize.enabled") === true) {
 		statusBarFileSize = vscode.window.createStatusBarItem("vscplus.fileSize", config.get("statusBar.fileSize.alignment") === "right" ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left, 151);
 		statusBarFileSize.command = "vscplus.display.fileinfo";
-		//statusBarFileSize.tooltip = createRichString("$(file) Current file's size, click for more information!");
+		//statusBarFileSize.tooltip = new vscode.MarkdownString("$(file) Current file's size, click for more information!", true);
 		statusBarFileSize.name = "VSC+ | File Size Information"; // Useful when individually disabling an item from the status bar after right clicking
 		updateStatusBarFileSize();
 		disposeSetItem(context, statusBarFileSize);
@@ -249,7 +239,7 @@ function activateVSCPlus(context: vscode.ExtensionContext): void {
 	if (config.get("statusBar.formatButton.enabled") === true) {
 		statusBarFormatting = vscode.window.createStatusBarItem("vscplus.formatButton", config.get("statusBar.formatButton.alignment") === "right" ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left, -9);
 		statusBarFormatting.command = "vscplus.toggle.formatting";
-		//statusBarFormatting.tooltip = createRichString(`Toggle file formatting`);
+		//statusBarFormatting.tooltip = new vscode.MarkdownString(`Toggle file formatting`, true);
 		statusBarFormatting.name = "VSC+ | Format Button"; // Useful when individually disabling an item from the status bar after right clicking
 		updateStatusBarFormatting();
 		statusBarFormatting.show();
