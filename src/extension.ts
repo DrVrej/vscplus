@@ -22,6 +22,7 @@ export function activate(context: vscode.ExtensionContext): void {
 	context.subscriptions.push(vscode.commands.registerCommand("vscplus.toggle.formatting", function () {
 		updateStatusBarFormatting(true);
 	}));
+	context.subscriptions.push(new vscode.Disposable(disposeItems));
 
 	activateVSCPlus();
 
@@ -43,10 +44,10 @@ export function activate(context: vscode.ExtensionContext): void {
 		}
 	}));
 
-	// Current open document changed
+	// Changes occurred in the current open document
 	context.subscriptions.push(vscode.workspace.onDidChangeTextDocument(function (event) {
 		//console.log("onDidChangeTextDocument");
-		if (event.document === vscode.window.activeTextEditor?.document) {
+		if (event.document === vscode.window.activeTextEditor?.document && event.contentChanges.length > 0) {
 			updateStatusBarTextInfo();
 		}
 	}));
