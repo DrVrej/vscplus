@@ -6,24 +6,20 @@ const path = require('path');
 const webExtensionConfig = {
 	mode: 'none',
 	target: 'webworker',
-
 	entry: {
 		extension: './src/extension.ts',
 		'test/suite/index': './src/test/suite/index.ts'
 	},
-
 	output: {
 		filename: '[name].js',
 		path: path.join(__dirname, './dist/web'),
 		libraryTarget: 'commonjs',
 		devtoolModuleFilenameTemplate: '../../[resource-path]'
 	},
-
 	resolve: {
 		mainFields: ['browser', 'module', 'main'],
 		extensions: ['.ts', '.js']
 	},
-
 	module: {
 		rules: [
 			{
@@ -37,15 +33,12 @@ const webExtensionConfig = {
 			}
 		]
 	},
-
 	externals: {
 		vscode: 'commonjs vscode'
 	},
-
 	performance: {
 		hints: false
 	},
-
 	devtool: 'nosources-source-map'
 };
 

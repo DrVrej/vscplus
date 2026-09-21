@@ -203,6 +203,7 @@
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run build",
+		"publish:marketplace": "vsce publish --allow-star-activation --no-dependencies",
 		"compile": "tsc -p .",
 		"build": "npm run compile && webpack --mode production --devtool hidden-source-map",
 		"lint": "eslint \"src/**/*.ts\"",
@@ -212,6 +213,7 @@
 		"watch-web": "webpack --watch",
 		"pretest-web": "webpack && npm run lint",
 		"test-web": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js",
+		"prerun-web": "webpack",
 		"run-web": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=."
 	},
 	"devDependencies": {
