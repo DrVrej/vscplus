@@ -97,7 +97,7 @@ function updateStatusBarTextInfo(): void {
 		const editor: vscode.TextEditor | undefined = vscode.window.activeTextEditor; // The current active editor
 		if (editor) {
 			const editorDoc: vscode.TextDocument = editor.document; // The current open document in the editor]
-			let finalText = `Lns: ${editorDoc.lineCount}, Chs: ${editorDoc.offsetAt(editorDoc.lineAt(editorDoc.lineCount - 1).range.end)}`;
+			let finalText = `Lns: ${editorDoc.lineCount}, Chs: ${editorDoc.offsetAt(new vscode.Position(editorDoc.lineCount, 0))}`;
 			if (vscode.workspace.getConfiguration("vscplus").get("statusBar.textInfo.displaySelection") === true) {
 				let selectionLines = 0; // Number of lines selected
 				let selectionChars = 0; // Number of characters selected
@@ -111,10 +111,13 @@ function updateStatusBarTextInfo(): void {
 					finalText += ` (Sel: ${selectionLines} Lns, ${selectionChars} Chs)`;
 				}
 			}
-			statusBarTextInfo.text = finalText;
-			statusBarTextInfo.show();
+			if (statusBarTextInfo.text !== finalText) {
+				statusBarTextInfo.text = finalText;
+				statusBarTextInfo.show();
+			}
 		} else {
 			statusBarTextInfo.hide();
+			statusBarTextInfo.text = ""; // Otherwise reopening a document with identical count leaves statusBarTextInfo hidden!
 		}
 	}
 }
