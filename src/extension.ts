@@ -27,7 +27,7 @@ export function activate(context: vscode.ExtensionContext): void {
 	activateVSCPlus();
 
 	// Events & Listeners
-	// Settings was changed
+	// Settings has changed
 	context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(function (event: vscode.ConfigurationChangeEvent) {
 		// Refresh this extension if one its settings has changed or vscode editor settings changed
 		if (event.affectsConfiguration("vscplus") || event.affectsConfiguration("editor")) {
@@ -70,11 +70,6 @@ export function activate(context: vscode.ExtensionContext): void {
 
 	console.log("VSC+ has successfully initialized...");
 }
-
-/** Called when the extension is deactivated */
-//export function deactivate(): void {
-//	//console.log("VSC+ has been disabled!");
-//}
 
 /** Dispose all status bar items and clear their references. */
 function disposeItems(): void {

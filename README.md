@@ -13,23 +13,23 @@ __Reload Button__
 - Adds a small button in the status bar that reloads the current workbench / window. Useful when a refresh is needed for VSCode.  
 - Available everywhere.  
 
-![feature 'File Size'](images/statusbar_reload.gif)
+![Reload workbench button demo](images/statusbar_reload.gif)
 
 __Text Information Display__  
 - Adds a text in the status bar that displays the total number of lines and characters in the current file.  
 - When selecting, it displays the number of lines and characters selected (Next to the total numbers).  
 - Selection display supports both multiline and column selections!  
 
-![feature 'File Size'](images/statusbar_textinfo.gif)  
-![feature 'File Size'](images/statusbar_textinfo_sel.gif)
+![Text information display demo](images/statusbar_textinfo.gif)  
+![Text information selection display demo](images/statusbar_textinfo_sel.gif)
 
 __File Size Display__  
-- Adds a text in the status bar that displays the size of the current file.  
+- Adds a text in the status bar that displays the saved size of the current file.  
 - Automatically changes between byte sizes depending on the total size.  
 - Supports bytes, kilobytes, megabytes, gigabytes.  
 - When clicked, a pop-up will appear showing the size in all byte sizes and allows the user to copy the path of the file.  
 
-![feature 'File Size'](images/statusbar_filesize.gif)
+![File size display demo](images/statusbar_filesize.gif)
 
 __Formatting Toggle Button__  
 - Adds a button to the status bar that toggles formatting.  
@@ -37,13 +37,13 @@ __Formatting Toggle Button__
 - Supports the following toggles: `onPaste, onSave, onType`, can be customized.  
 - If one of the toggles is manually set by the user, an active check will appear.  
 
-![feature 'File Size'](images/statusbar_format.gif)  
-![feature 'File Size'](images/statusbar_format_setting.gif)
+![Formatting toggle demo](images/statusbar_format.gif)  
+![Formatting toggle settings demo](images/statusbar_format_setting.gif)
 
 __Word Wrap Toggle Button__  
 - Adds a simple button in the tool bar that toggles word wrapping in the editor.  
 
-![feature 'File Size'](images/toolbar_wordwrap.gif)
+![Word wrap toolbar button demo](images/toolbar_wordwrap.gif)
 
 ------------------------------------------------------------------
 ## ⚙️ Extension Settings

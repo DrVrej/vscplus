@@ -31,11 +31,16 @@
 		"Other"
 	],
 	"keywords": [
+		"tool",
 		"tools",
+		"status",
 		"statusbar",
-		"additional",
+		"status bar",
+		"shortcut",
+		"shortcuts",
+		"shortcut menu bar",
 		"customizable",
-		"toolsbar",
+		"toolbar",
 		"vscode",
 		"extra",
 		"format",
@@ -45,7 +50,8 @@
 		"file",
 		"size",
 		"wordwrap",
-		"toggle"
+		"toggle",
+		"typescript"
 	],
 	"activationEvents": [
 		"*"

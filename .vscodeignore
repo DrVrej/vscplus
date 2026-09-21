@@ -4,7 +4,6 @@
 .vscode-test/**
 dist/web/test/**
 out/test/**
-out/**/*.map
 src/**
 vsc-extension-quickstart.md
 **/tsconfig.json
