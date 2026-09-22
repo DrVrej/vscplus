@@ -117,45 +117,51 @@ function updateStatusBarTextInfo(): void {
 	}
 }
 
+const KB = 1024;
+const MB = KB * 1024;
+const GB = MB * 1024;
+
 /**
  * Updates the status bar file size display
  * @param output If true, it will output extra information (Pop up notification)
 */
 async function updateStatusBarFileSize(output = false): Promise<void> {
-	if (statusBarFileSize) {
-		const doc: vscode.TextDocument | undefined = vscode.window.activeTextEditor?.document; // Current active document
-		if (doc) {
-			const docURI: vscode.Uri = doc.uri; // The universal resource identifier
-			if (docURI.scheme !== "untitled") { // Exclude untitled files
-				const byte: number = (await vscode.workspace.fs.stat(docURI)).size;
-				let result: string;
-				if (byte >= 1e9) {
-					result = (byte / 1e9).toFixed(2) + " GB";
-				} else if (byte >= 1e6) {
-					result = (byte / 1e6).toFixed(2) + " MB";
-				} else if (byte >= 1e3) {
-					result = (byte / 1e3).toFixed(2) + " KB";
-				} else {
-					result = byte + " B";
-				}
-				const allCalculations: string = byte + " Bytes | " + (byte / 1000).toFixed(2) + " Kilobytes | " + (byte / 1000000).toFixed(2) + " MegaBytes | " + (byte / 1000000000).toFixed(2) + " Gigabytes";
-				//console.log(result);
-				statusBarFileSize.text = result;
-				statusBarFileSize.tooltip = new vscode.MarkdownString(`$(file) Current file's size, click for more information!  
-				` + allCalculations, true);
-				statusBarFileSize.show();
-				// If we should display the pop up box
-				if (output) {
-					const outputResult: string = doc.fileName + " =      " + allCalculations;
-					const infoMsg: string | undefined = await vscode.window.showInformationMessage(outputResult, "Copy Path");
-					if (infoMsg === "Copy Path") {
-						vscode.env.clipboard.writeText(docURI.fsPath);
-					}
-				}
-				return;
+	const doc: vscode.TextDocument | undefined = vscode.window.activeTextEditor?.document; // Current active document
+	if (!doc || doc.isUntitled) { // Also excludes untitled files!
+		statusBarFileSize?.hide();
+		return;
+	}
+	try {
+		const { size } = await vscode.workspace.fs.stat(doc.uri);
+		let result: string;
+		if (size >= 1e9) {
+			result = (size / 1e9).toFixed(2) + " GB";
+		} else if (size >= 1e6) {
+			result = (size / 1e6).toFixed(2) + " MB";
+		} else if (size >= 1e3) {
+			result = (size / 1e3).toFixed(2) + " KB";
+		} else {
+			result = size + " B";
+		}
+		const allCalculations = `${size} B | ${(size / KB).toFixed(2)} KB | ${(size / MB).toFixed(2)} MB | ${(size / GB).toFixed(2)} GB`;
+		//console.log(allCalculations);
+
+		// Handle status bar
+		if (statusBarFileSize) {
+			statusBarFileSize.text = result;
+			statusBarFileSize.tooltip = new vscode.MarkdownString(`$(file) Current file's size, click for more information!  \n${allCalculations}`, true);
+			statusBarFileSize.show();
+		}
+
+		// Handle pop-up
+		if (output) {
+			const infoMsg: string | undefined = await vscode.window.showInformationMessage(`${doc.fileName} | ${allCalculations}`, "Copy Path");
+			if (infoMsg === "Copy Path") {
+				await vscode.env.clipboard.writeText(doc.uri.fsPath);
 			}
 		}
-		statusBarFileSize.hide();
+	} catch {
+		statusBarFileSize?.hide();
 	}
 }
 
@@ -187,12 +193,10 @@ async function updateStatusBarFormatting(toggle = false): Promise<void> {
 		// Finally, set the appropriate text depending on its active status
 		if (active) {
 			statusBarFormatting.text = "Format $(pass-filled)";
-			statusBarFormatting.tooltip = new vscode.MarkdownString(`Toggle file formatting - **$(pass-filled) Enabled**  
-			Triggers: ` + configTriggers, true);
+			statusBarFormatting.tooltip = new vscode.MarkdownString(`Toggle file formatting - **$(pass-filled) Enabled**  \nTriggers: ${configTriggers}`, true);
 		} else {
 			statusBarFormatting.text = "Format $(error)";
-			statusBarFormatting.tooltip = new vscode.MarkdownString(`Toggle file formatting - **$(error) Disabled**  
-			Triggers: ` + configTriggers, true);
+			statusBarFormatting.tooltip = new vscode.MarkdownString(`Toggle file formatting - **$(error) Disabled**  \nTriggers: ${configTriggers}`, true);
 		}
 	}
 }
