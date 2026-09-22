@@ -11,16 +11,16 @@ let statusBarFormatting: vscode.StatusBarItem | null = null;
 export function activate(context: vscode.ExtensionContext): void {
 	// Disposable items that should be cleaned up
 	context.subscriptions.push(vscode.commands.registerCommand("vscplus.reload.workbench", function () {
-		vscode.commands.executeCommand("workbench.action.reloadWindow");
+		return vscode.commands.executeCommand("workbench.action.reloadWindow");
 	}));
 	context.subscriptions.push(vscode.commands.registerCommand("vscplus.toggle.wordwrap", function () {
-		vscode.commands.executeCommand("editor.action.toggleWordWrap");
+		return vscode.commands.executeCommand("editor.action.toggleWordWrap");
 	}));
 	context.subscriptions.push(vscode.commands.registerCommand("vscplus.display.fileinfo", function () {
-		updateStatusBarFileSize(true);
+		return updateStatusBarFileSize(true);
 	}));
 	context.subscriptions.push(vscode.commands.registerCommand("vscplus.toggle.formatting", function () {
-		updateStatusBarFormatting(true);
+		return updateStatusBarFormatting(true);
 	}));
 	context.subscriptions.push(new vscode.Disposable(disposeItems));
 
