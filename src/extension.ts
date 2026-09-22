@@ -185,9 +185,9 @@ async function updateStatusBarFormatting(toggle = false): Promise<void> {
 		// If this was a button press...
 		if (toggle) {
 			active = !active;
-			if (triggers.onPaste) { configEditor.update("formatOnPaste", active, vscode.ConfigurationTarget.Global); }
-			if (triggers.onSave) { configEditor.update("formatOnSave", active, vscode.ConfigurationTarget.Global); }
-			if (triggers.onType) { configEditor.update("formatOnType", active, vscode.ConfigurationTarget.Global); }
+			if (triggers.onPaste) { await configEditor.update("formatOnPaste", active, vscode.ConfigurationTarget.Global); }
+			if (triggers.onSave) { await configEditor.update("formatOnSave", active, vscode.ConfigurationTarget.Global); }
+			if (triggers.onType) { await configEditor.update("formatOnType", active, vscode.ConfigurationTarget.Global); }
 		}
 
 		// Finally, set the appropriate text depending on its active status
