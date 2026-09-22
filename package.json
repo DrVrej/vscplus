@@ -70,11 +70,13 @@
 			"title": "VSC+",
 			"properties": {
 				"vscplus.statusBar.reloadButton.enabled": {
+					"order": 0,
 					"type": "boolean",
 					"default": true,
 					"description": "Enable the reload workbench button in the status bar."
 				},
 				"vscplus.statusBar.reloadButton.alignment": {
+					"order": 1,
 					"type": "string",
 					"default": "right",
 					"enum": [
@@ -88,11 +90,13 @@
 					"description": "Specifies the reload button's alignment on the status bar."
 				},
 				"vscplus.statusBar.textInfo.enabled": {
+					"order": 3,
 					"type": "boolean",
 					"default": true,
 					"description": "Enable the current file's text information in the status bar."
 				},
 				"vscplus.statusBar.textInfo.alignment": {
+					"order": 4,
 					"type": "string",
 					"default": "right",
 					"enum": [
@@ -106,16 +110,19 @@
 					"description": "Specifies the text information alignment on the status bar."
 				},
 				"vscplus.statusBar.textInfo.displaySelection": {
+					"order": 5,
 					"type": "boolean",
 					"default": true,
 					"description": "Toggles whether or not it should display the number of selected lines and characters next to the total count in the status bar."
 				},
 				"vscplus.statusBar.fileSize.enabled": {
+					"order": 6,
 					"type": "boolean",
 					"default": true,
 					"description": "Enable the current file's size information in the status bar."
 				},
 				"vscplus.statusBar.fileSize.alignment": {
+					"order": 7,
 					"type": "string",
 					"default": "right",
 					"enum": [
@@ -129,11 +136,13 @@
 					"description": "Specifies the current file's size information alignment on the status bar."
 				},
 				"vscplus.statusBar.formatButton.enabled": {
+					"order": 8,
 					"type": "boolean",
 					"default": true,
 					"description": "Enable the format toggle button on the status bar."
 				},
 				"vscplus.statusBar.formatButton.alignment": {
+					"order": 9,
 					"type": "string",
 					"default": "right",
 					"enum": [
@@ -147,13 +156,14 @@
 					"description": "Specifies the format toggle button's alignment on the status bar."
 				},
 				"vscplus.statusBar.formatButton.triggers": {
+					"order": 10,
 					"type": "array",
 					"default": [
 						"onPaste",
 						"onSave",
 						"onType"
 					],
-					"markdownDescription": "Which formatting settings should the toggle change? Accepted items: `onPaste, onSave, onType`, anything else is ignored.",
+					"markdownDescription": "Which formatting settings should the toggle change? *By default it selects all of them.*",
 					"items": {
 						"type": "string",
 						"enum": [
@@ -165,6 +175,7 @@
 					"uniqueItems": true
 				},
 				"vscplus.toolBar.wordWrapButton.enabled": {
+					"order": 11,
 					"type": "boolean",
 					"default": true,
 					"description": "Enable the word wrap toggle button in the tool bar."
