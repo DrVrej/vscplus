@@ -18,12 +18,10 @@
 		},
 		{
 			"type": "npm",
-			"script": "watch-web",
+			"script": "compile-web",
 			"group": "build",
-			"isBackground": true,
-			"problemMatcher": [
-				"$ts-webpack-watch"
-			]
+			//"isBackground": true,
+			"problemMatcher": []
 		}
 	]
 }

@@ -11,7 +11,7 @@
 			"node",
 			"vscode"
 		],
-		"outDir": "out",
+		"outDir": "out/desktop",
 		"rootDir": "src",
 		"sourceMap": true,
 		"strict": true /* enable all strict type-checking options */

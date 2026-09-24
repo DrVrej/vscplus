@@ -2,10 +2,9 @@
 .yarnrc
 .vscode/**
 .vscode-test/**
-dist/web/test/**
-out/test/**
+out/web/test/**
+out/desktop/test/**
 src/**
-vsc-extension-quickstart.md
 **/tsconfig.json
 **/.eslintrc.json
 **/*.map
@@ -13,4 +12,5 @@ vsc-extension-quickstart.md
 
 # Custom
 eslint.config.mjs
+esbuild.mjs
 myfiles/**

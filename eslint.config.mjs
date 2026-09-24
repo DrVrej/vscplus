@@ -14,9 +14,8 @@ export default defineConfig(
 		ignores: [
 			'.vscode-test',
 			'.vscode-test-web',
-			'dist',
 			'out',
-			'webpack.config.js',
+			'esbuild.mjs',
 		]
 	},
 	js.configs.recommended,
