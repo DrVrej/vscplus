@@ -219,20 +219,16 @@
 		}
 	},
 	"scripts": {
-		"vscode:prepublish": "npm run build",
+		"vscode:prepublish": "npm run compile && node esbuild.mjs --production",
 		"publish:marketplace": "vsce publish --allow-star-activation --no-dependencies",
-		"compile": "tsc -p .",
-		"compile-web": "npm run compile && node esbuild.mjs",
-		"build": "npm run compile && node esbuild.mjs --production",
 		"lint": "eslint \"src/**/*.ts\"",
+		"compile": "tsc -p .",
+		"compile-web": "tsc --noEmit -p . && node esbuild.mjs",
 		"watch": "tsc -watch -p .",
-		"pretest": "npm run compile && npm run lint",
-		"test": "node ./out/desktop/test/runTest.js",
 		"watch-web": "node esbuild.mjs --watch",
-		"pretest-web": "npm run compile-web && npm run lint",
-		"test-web": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=out/web/test/suite/index.js",
-		"prerun-web": "npm run compile-web",
-		"run-web": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=."
+		"test": "npm run compile && npm run lint && node ./out/desktop/test/runTest.js",
+		"test-web": "npm run compile-web && npm run lint && vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=out/web/test/suite/index.js",
+		"run-web": "npm run compile-web && vscode-test-web --browserType=chromium --extensionDevelopmentPath=."
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.39.4",
@@ -246,9 +242,5 @@
 		"eslint": "^10.6.0",
 		"typescript": "^6.0.3",
 		"typescript-eslint": "^8.62.1"
-	},
-	"allowScripts": {
-		"@playwright/browser-chromium@1.63.0": true,
-		"@vscode/vsce-sign@2.1.0": true
 	}
 }

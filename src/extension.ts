@@ -134,12 +134,12 @@ async function updateStatusBarFileSize(output = false): Promise<void> {
 	try {
 		const { size } = await vscode.workspace.fs.stat(doc.uri);
 		let result: string;
-		if (size >= 1e9) {
-			result = (size / 1e9).toFixed(2) + " GB";
-		} else if (size >= 1e6) {
-			result = (size / 1e6).toFixed(2) + " MB";
-		} else if (size >= 1e3) {
-			result = (size / 1e3).toFixed(2) + " KB";
+		if (size >= GB) {
+			result = (size / GB).toFixed(2) + " GB";
+		} else if (size >= MB) {
+			result = (size / MB).toFixed(2) + " MB";
+		} else if (size >= KB) {
+			result = (size / KB).toFixed(2) + " KB";
 		} else {
 			result = size + " B";
 		}

@@ -1,16 +1,11 @@
 .gitignore
-.yarnrc
-.vscode/**
-.vscode-test/**
-out/web/test/**
-out/desktop/test/**
-src/**
-**/tsconfig.json
-**/.eslintrc.json
-**/*.map
-**/*.ts
-
-# Custom
+.github/
+.vscode/
+myfiles/
+src/
+out/*/test/
 eslint.config.mjs
 esbuild.mjs
-myfiles/**
+**/tsconfig.json
+**/*.map
+**/*.ts

@@ -19,7 +19,7 @@ const options = {
 	external: ['vscode'],
 	outdir: 'out/web',
 	minify: production,
-	sourcemap: production ? 'external' : 'linked',
+	sourcemap: production ? false : 'linked',
 	sourcesContent: false,
 	logLevel: 'info'
 };

@@ -30,7 +30,7 @@
 				"--extensionTestsPath=${workspaceFolder}/out/desktop/test/suite/index"
 			],
 			"outFiles": [
-				"${workspaceFolder}/out/desktop/test/**/*.js"
+				"${workspaceFolder}/out/desktop/**/*.js"
 			],
 			"preLaunchTask": "npm: watch"
 		},
