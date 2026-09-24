@@ -6,10 +6,12 @@ let statusBarReload: vscode.StatusBarItem | null = null;
 let statusBarTextInfo: vscode.StatusBarItem | null = null;
 let statusBarFileSize: vscode.StatusBarItem | null = null;
 let statusBarFormatting: vscode.StatusBarItem | null = null;
+let log: vscode.LogOutputChannel;
 
 /** The main function, called when the extension is activated (Usually when VSCode starts) */
 export function activate(context: vscode.ExtensionContext): void {
 	// Disposable items that should be cleaned up
+	context.subscriptions.push(log = vscode.window.createOutputChannel("VSC+", { log: true }));
 	context.subscriptions.push(vscode.commands.registerCommand("vscplus.reload.workbench", function () {
 		return vscode.commands.executeCommand("workbench.action.reloadWindow");
 	}));
@@ -31,6 +33,9 @@ export function activate(context: vscode.ExtensionContext): void {
 	context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(function (event: vscode.ConfigurationChangeEvent) {
 		// Refresh this extension if one its settings has changed or vscode editor settings changed
 		if (event.affectsConfiguration("vscplus") || event.affectsConfiguration("editor")) {
+			if (event.affectsConfiguration("vscplus")) {
+				log.warn(`Settings updated!`);
+			}
 			disposeItems();
 			activateVSCPlus();
 		}
@@ -38,7 +43,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
 	// User saves the current active file
 	context.subscriptions.push(vscode.workspace.onDidSaveTextDocument(function (event) {
-		//console.log("onDidSaveTextDocument");
+		//log.info("onDidSaveTextDocument");
 		if (event === vscode.window.activeTextEditor?.document) {
 			updateStatusBarFileSize();
 		}
@@ -46,7 +51,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
 	// Changes occurred in the current open document
 	context.subscriptions.push(vscode.workspace.onDidChangeTextDocument(function (event) {
-		//console.log("onDidChangeTextDocument");
+		//log.info("onDidChangeTextDocument");
 		if (event.document === vscode.window.activeTextEditor?.document && event.contentChanges.length > 0) {
 			updateStatusBarTextInfo();
 		}
@@ -54,7 +59,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
 	// Current text editor completely changed
 	context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(function () {
-		//console.log("onDidChangeActiveTextEditor");
+		//log.info("onDidChangeActiveTextEditor");
 		updateStatusBarTextInfo();
 		updateStatusBarFileSize();
 		updateStatusBarFormatting();
@@ -62,13 +67,20 @@ export function activate(context: vscode.ExtensionContext): void {
 
 	// User is selecting or moving the editor pointer
 	context.subscriptions.push(vscode.window.onDidChangeTextEditorSelection(function (event) {
-		//console.log("onDidChangeTextEditorSelection");
+		//log.info("onDidChangeTextEditorSelection");
 		if (event.textEditor === vscode.window.activeTextEditor) {
 			updateStatusBarTextInfo();
 		}
 	}));
 
-	console.log("VSC+ has successfully initialized...");
+	// Handle logging
+	log.onDidChangeLogLevel(level => {
+		if (log) {
+			log.info(`Log level changed: ${vscode.LogLevel[level]}`);
+		}
+	});
+	log.info(`Log level: ${vscode.LogLevel[log.logLevel]}`);
+	log.info("Successfully initialized...");
 }
 
 /** Dispose all status bar items and clear their references. */
@@ -87,7 +99,6 @@ function disposeItems(): void {
 /** Updates the status bar text information */
 function updateStatusBarTextInfo(): void {
 	// If we have statusBarTextInfo & an active editor, then update statusBarTextInfo's values
-	//console.log("------------");
 	if (statusBarTextInfo !== null) {
 		const editor: vscode.TextEditor | undefined = vscode.window.activeTextEditor; // The current active editor
 		if (editor) {
@@ -144,7 +155,7 @@ async function updateStatusBarFileSize(output = false): Promise<void> {
 			result = size + " B";
 		}
 		const allCalculations = `${size} B | ${(size / KB).toFixed(2)} KB | ${(size / MB).toFixed(2)} MB | ${(size / GB).toFixed(2)} GB`;
-		//console.log(allCalculations);
+		//log.info(allCalculations);
 
 		// Handle status bar
 		if (statusBarFileSize) {
@@ -155,6 +166,7 @@ async function updateStatusBarFileSize(output = false): Promise<void> {
 
 		// Handle pop-up
 		if (output) {
+			log.info(`File size displayed: \n=> ${doc.fileName}\n=> ${allCalculations}`);
 			const infoMsg: string | undefined = await vscode.window.showInformationMessage(`${doc.fileName} | ${allCalculations}`, "Copy Path");
 			if (infoMsg === "Copy Path") {
 				await vscode.env.clipboard.writeText(doc.uri.fsPath);
@@ -177,10 +189,10 @@ async function updateStatusBarFormatting(toggle = false): Promise<void> {
 			onSave: configTriggers?.includes("onSave") ?? false,
 			onType: configTriggers?.includes("onType") ?? false
 		};
-		//console.log("Triggers:", triggers);
+		//log.info("Triggers:", triggers);
 		const configEditor: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("editor"); // Default VSCode formatting options
 		let active: boolean = (triggers.onPaste && configEditor.get("formatOnPaste")) || (triggers.onSave && configEditor.get("formatOnSave")) || (triggers.onType && configEditor.get("formatOnType")) || false; // Are any of the formatting options active?
-		//console.log("Active:", active);
+		//log.info("Active:", active);
 
 		// If this was a button press...
 		if (toggle) {
@@ -244,5 +256,5 @@ function activateVSCPlus(): void {
 		statusBarFormatting.show();
 	}
 
-	//console.log(context.subscriptions);
+	//log.info(context.subscriptions);
 }
