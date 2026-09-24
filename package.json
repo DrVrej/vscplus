@@ -228,6 +228,7 @@
 		"watch-web": "node esbuild.mjs --watch",
 		"test": "npm run compile && npm run lint && node ./out/desktop/test/runTest.js",
 		"test-web": "npm run compile-web && npm run lint && vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=out/web/test/suite/index.js",
+		"run": "npm run compile && npm run lint && node ./out/desktop/test/runTest.js --run",
 		"run-web": "npm run compile-web && vscode-test-web --browserType=chromium --extensionDevelopmentPath=."
 	},
 	"devDependencies": {

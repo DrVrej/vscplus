@@ -1,16 +1,17 @@
 import * as vscode from "vscode";
 
 export async function run(): Promise<void> {
+	console.log("VSC+ Test: start...");
 	const extension = vscode.extensions.getExtension("Vrej.vscplus");
 
 	if (!extension) {
-		throw new Error("VSC+ was not found in the extension host.");
+		throw new Error("VSC+ Test: extension was not found in the extension host.");
 	}
 
 	await extension.activate();
 
 	if (!extension.isActive) {
-		throw new Error("VSC+ did not activate.");
+		throw new Error("VSC+ Test: extension did not activate.");
 	}
 
 	const commands = new Set(await vscode.commands.getCommands(true));
@@ -24,9 +25,9 @@ export async function run(): Promise<void> {
 
 	for (const command of expectedCommands) {
 		if (!commands.has(command)) {
-			throw new Error(`Missing VSC+ command: ${command}`);
+			throw new Error(`VSC+ Test: missing command: ${command}`);
 		}
 	}
 
-	console.log("VSC+ activation and command availability checks passed.");
+	console.log("VSC+ Test: activation and command availability checks passed!");
 }
