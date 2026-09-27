@@ -1,3 +1,4 @@
+// Used for the web version
 import * as esbuild from 'esbuild';
 
 const production = process.argv.includes('--production');
