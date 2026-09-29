@@ -2,7 +2,7 @@
 All notable changes to VSC+ will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 1.2.0 - September 20, 2026
+## 1.2.0 - September 28, 2026
 - Applied massive performance optimization, which greatly reduces the extension's overall impact
 - File size display calculations now use 1024-based units
 - Added a dedicated VSC+ log output channel
